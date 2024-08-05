@@ -16,8 +16,8 @@ jobs:
           keeper-secret-config: ${{ secrets.KSM_CONFIG }}
           secrets: |-
             YCF9KvIIxkGDkSMyeQNpmA/field/password > PASSWORD
-            YCF9KvIIxkGDkSMyeQNpmA/file/private.key.pem > file:/tmp/private.key.pem
-            YCF9KvIIxkGDkSMyeQNpmA/file/public.key.pem > file:/tmp/public.key.pem
+            YCF9KvIIxkGDkSMyeQNpmA/file/private.key > file:/tmp/private.key
+            YCF9KvIIxkGDkSMyeQNpmA/file/public.key > file:/tmp/public.key
             
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
 
       - name: Import GPG Key
         run: |
-          echo "${{ steps.ksecrets.outputs.PASSWORD }}" | gpg --batch --yes --passphrase-fd 0 --import /tmp/private.key.pem
+          echo "${{ steps.ksecrets.outputs.PASSWORD }}" | gpg --batch --yes --passphrase-fd 0 --import /tmp/private.key
         env:
           GPG_PRIVATE_KEY: ${{ steps.ksecrets.outputs.PASSWORD }}
 
